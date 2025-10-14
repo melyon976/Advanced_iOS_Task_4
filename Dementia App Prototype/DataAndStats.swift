@@ -21,6 +21,7 @@ struct Settings: View {
         Text("Account Details")
         Text("Friends/contacts")
     }
+    
 }
 
 struct DataAndStats: View {
