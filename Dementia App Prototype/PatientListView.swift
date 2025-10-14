@@ -94,6 +94,7 @@ struct PatientListView: View {
             .animation(.easeInOut(duration: 0.4), value: showMenu) // animation for ZStack level
             .navigationBarBackButtonHidden(true)
         }
+        
     }
 }
 
