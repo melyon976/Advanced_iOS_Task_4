@@ -20,6 +20,7 @@ struct AllCompletedView: View {
         Text("All tasks are complete for today 🎉\n\n") .font(.title2)
         Divider()
         
+        
     }
 }
 
