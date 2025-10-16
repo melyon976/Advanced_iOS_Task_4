@@ -18,7 +18,7 @@ struct DatabaseThings: View {
                 Task {
                     do {
                         let ref = try await db.collection("users").addDocument(data: [
-                            "given_name": "Gabby",
+                            "given_name": "Grace",
                             "family_name": "Stafford",
                             "born": 1998
                         ])

@@ -21,6 +21,14 @@ struct Dementia_App_PrototypeApp: App {
 class AppDelegate: NSObject, UIApplicationDelegate { //networking layer for integrating cloud data management
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         FirebaseApp.configure()
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+            if let error = error {
+                print("Notification permission error: \(error)")
+            } else {
+                print("Notification permission granted: \(granted)")
+            }
+        }
+
         return true
     }
 }

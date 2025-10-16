@@ -71,8 +71,17 @@ struct PatientListView: View {
                             }
                             
                             Button(action:{viewModel.resetToDos()}) {
-                                Text("Reset Todos") .foregroundColor(Color("DarkAccentColor").opacity(0))
+                                Text("Reset Todos") .foregroundColor(Color("DarkAccentColor").opacity(1))
                             }
+                            
+                            //MARK: Grace: noti testing
+                            Button(action: {
+                                triggerInstantNotification()
+                            }) {
+                                Text("Notification Test")
+                                    .foregroundColor(Color("DarkAccentColor").opacity(1))
+                            }
+
                         }
                         .padding()
                     }
