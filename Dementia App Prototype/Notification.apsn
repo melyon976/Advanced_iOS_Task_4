@@ -1,0 +1,8 @@
+{
+    "Simulator Target Bundle": "au.edu.uts.Dementia-App-Prototype",
+    "aps": {
+        "alert": "Push notification test",
+        "sound": "default",
+        "badge": 1
+    }
+}

@@ -1,6 +1,7 @@
 import SwiftUI
 import FirebaseFirestore
 import AudioToolbox
+import UserNotifications
 
 
 // MARK: - Patient List View
@@ -76,7 +77,7 @@ struct PatientListView: View {
                             
                             //MARK: Grace: noti testing
                             Button(action: {
-                                triggerInstantNotification()
+                                NotificationManager.shared.triggerInstantTestNotification()
                             }) {
                                 Text("Notification Test")
                                     .foregroundColor(Color("DarkAccentColor").opacity(1))

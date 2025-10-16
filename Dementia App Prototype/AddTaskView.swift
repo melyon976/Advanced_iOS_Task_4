@@ -91,7 +91,7 @@ struct AddTaskView: View {
                                 present: true
                             )
                             viewModel.toDos.append(newTask)   // adds to their list
-                            scheduleReminders(for: taskName, at: when)
+                            NotificationManager.shared.scheduleReminders(for: taskName, at: when)
                             
                             result = "Attempting to add tasks_not_completed..."
                             Task {

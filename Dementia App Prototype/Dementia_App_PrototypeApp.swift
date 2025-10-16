@@ -7,6 +7,7 @@
 
 import SwiftUI
 import FirebaseCore
+import UserNotifications
 
 @main
 struct Dementia_App_PrototypeApp: App {
@@ -18,9 +19,16 @@ struct Dementia_App_PrototypeApp: App {
     }
 }
 
-class AppDelegate: NSObject, UIApplicationDelegate { //networking layer for integrating cloud data management
+class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate { //networking layer for integrating cloud data management
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         FirebaseApp.configure()
+        registerForNotifications()
+        return true
+    }
+    
+    func registerForNotifications() {
+        UNUserNotificationCenter.current().delegate = self
+
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
             if let error = error {
                 print("Notification permission error: \(error)")
@@ -28,7 +36,17 @@ class AppDelegate: NSObject, UIApplicationDelegate { //networking layer for inte
                 print("Notification permission granted: \(granted)")
             }
         }
-
-        return true
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.banner, .sound])
     }
 }
+
+//extension AppDelegate: UNUserNotificationCenterDelegate {
+//    func userNotificationCenter(_ center: UNUserNotificationCenter,
+//                                willPresent notification: UNNotification,
+//                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+//        completionHandler([.banner, .sound])
+//    }
+//}
