@@ -19,7 +19,7 @@ struct Dementia_App_PrototypeApp: App {
     }
 }
 
-class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate { //networking layer for integrating cloud data management
+class AppDelegate: NSObject, UIApplicationDelegate { //networking layer for integrating cloud data management
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         FirebaseApp.configure()
         registerForNotifications()
@@ -38,15 +38,18 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         }
     }
     
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler([.banner, .sound])
-    }
+//    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+//        completionHandler([.banner, .sound])
+//    }
 }
 
-//extension AppDelegate: UNUserNotificationCenterDelegate {
+extension AppDelegate: UNUserNotificationCenterDelegate {
 //    func userNotificationCenter(_ center: UNUserNotificationCenter,
 //                                willPresent notification: UNNotification,
 //                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
 //        completionHandler([.banner, .sound])
 //    }
-//}
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification) async -> UNNotificationPresentationOptions {
+        return [.badge, .banner, .list, .sound]
+    }
+}
