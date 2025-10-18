@@ -25,31 +25,29 @@ class NotificationManager {
     }
     
     func scheduleReminders(for taskName: String, at date: Date) {
-        let intervals = [15, 10, 5] // minutes before the task
+        let intervals = [15, 10, 5, 0] // 0 means exactly at due time
         for minutesBefore in intervals {
             let triggerTime = date.addingTimeInterval(-Double(minutesBefore * 60))
-            if triggerTime > Date() {
-                let content = UNMutableNotificationContent()
-                content.title = "Upcoming Task"
-                content.body = "\(taskName) is due in \(minutesBefore) minutes."
-                content.sound = .default
-                
-                let triggerDate = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: triggerTime)
-                let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
-                
-                let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-                
-                UNUserNotificationCenter.current().add(request) { error in
-                    if let error = error {
-                        print("Error scheduling \(minutesBefore)-minute reminder: \(error)")
-                    } else {
-                        print("Scheduled \(minutesBefore)-minute reminder for \(taskName)")
-                    }
-                }
-            }
+            guard triggerTime > Date() else { continue }
+
+            let content = UNMutableNotificationContent()
+            content.title = minutesBefore == 0 ? "Task Due Now" : "Upcoming Task"
+            content.body = minutesBefore == 0
+                ? "\(taskName) is due now."
+                : "\(taskName) is due in \(minutesBefore) minutes."
+            content.sound = .default
+
+            let triggerDate = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: triggerTime)
+            let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
+            
+            let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+            UNUserNotificationCenter.current().add(request)
+            
+            print("✅ Scheduled reminder for \(taskName) at \(triggerTime)")
         }
     }
     
+    //use for testing
     func triggerInstantTestNotification() {
         let content = UNMutableNotificationContent()
         content.title = "Test Notification"
