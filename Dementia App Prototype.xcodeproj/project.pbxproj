@@ -15,11 +15,27 @@
 		D1B515222E8E841A008CFC5C /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = D1B515212E8E841A008CFC5C /* FirebaseFirestore */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		7224AA822EA47B0900C7E446 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D113E9502E540A90007AE1DC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D113E9572E540A90007AE1DC;
+			remoteInfo = "Dementia App Prototype";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		7224AA7E2EA47B0900C7E446 /* Dementia App PrototypeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Dementia App PrototypeTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1B035752E929D69004FF1E4 /* Dementia App Prototype.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Dementia App Prototype.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		7224AA7F2EA47B0900C7E446 /* Dementia App PrototypeTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "Dementia App PrototypeTests";
+			sourceTree = "<group>";
+		};
 		D113E95A2E540A90007AE1DC /* Dementia App Prototype */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "Dementia App Prototype";
@@ -28,6 +44,13 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		7224AA7B2EA47B0900C7E446 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D113E9552E540A90007AE1DC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -48,8 +71,10 @@
 			isa = PBXGroup;
 			children = (
 				D113E95A2E540A90007AE1DC /* Dementia App Prototype */,
+				7224AA7F2EA47B0900C7E446 /* Dementia App PrototypeTests */,
 				D1B515202E8E841A008CFC5C /* Frameworks */,
 				D1B035752E929D69004FF1E4 /* Dementia App Prototype.app */,
+				7224AA7E2EA47B0900C7E446 /* Dementia App PrototypeTests.xctest */,
 			);
 			sourceTree = "<group>";
 		};
@@ -63,6 +88,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		7224AA7D2EA47B0900C7E446 /* Dementia App PrototypeTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7224AA862EA47B0900C7E446 /* Build configuration list for PBXNativeTarget "Dementia App PrototypeTests" */;
+			buildPhases = (
+				7224AA7A2EA47B0900C7E446 /* Sources */,
+				7224AA7B2EA47B0900C7E446 /* Frameworks */,
+				7224AA7C2EA47B0900C7E446 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7224AA832EA47B0900C7E446 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				7224AA7F2EA47B0900C7E446 /* Dementia App PrototypeTests */,
+			);
+			name = "Dementia App PrototypeTests";
+			packageProductDependencies = (
+			);
+			productName = "Dementia App PrototypeTests";
+			productReference = 7224AA7E2EA47B0900C7E446 /* Dementia App PrototypeTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		D113E9572E540A90007AE1DC /* Dementia App Prototype */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D113E9662E540A91007AE1DC /* Build configuration list for PBXNativeTarget "Dementia App Prototype" */;
@@ -98,9 +146,13 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1620;
+				LastSwiftUpdateCheck = 2600;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
+					7224AA7D2EA47B0900C7E446 = {
+						CreatedOnToolsVersion = 26.0.1;
+						TestTargetID = D113E9572E540A90007AE1DC;
+					};
 					D113E9572E540A90007AE1DC = {
 						CreatedOnToolsVersion = 16.2;
 					};
@@ -124,11 +176,19 @@
 			projectRoot = "";
 			targets = (
 				D113E9572E540A90007AE1DC /* Dementia App Prototype */,
+				7224AA7D2EA47B0900C7E446 /* Dementia App PrototypeTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		7224AA7C2EA47B0900C7E446 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D113E9562E540A90007AE1DC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -139,6 +199,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		7224AA7A2EA47B0900C7E446 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D113E9542E540A90007AE1DC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -148,7 +215,57 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		7224AA832EA47B0900C7E446 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D113E9572E540A90007AE1DC /* Dementia App Prototype */;
+			targetProxy = 7224AA822EA47B0900C7E446 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		7224AA842EA47B0900C7E446 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "test.Dementia-App-PrototypeTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Dementia App Prototype.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Dementia App Prototype";
+			};
+			name = Debug;
+		};
+		7224AA852EA47B0900C7E446 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "test.Dementia-App-PrototypeTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Dementia App Prototype.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Dementia App Prototype";
+			};
+			name = Release;
+		};
 		D113E9642E540A91007AE1DC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -329,6 +446,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		7224AA862EA47B0900C7E446 /* Build configuration list for PBXNativeTarget "Dementia App PrototypeTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7224AA842EA47B0900C7E446 /* Debug */,
+				7224AA852EA47B0900C7E446 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		D113E9532E540A90007AE1DC /* Build configuration list for PBXProject "Dementia App Prototype" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

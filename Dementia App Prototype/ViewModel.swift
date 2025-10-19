@@ -21,13 +21,13 @@ class ToDoViewModel: ObservableObject {
         loadFromUserDefaults()
     }
     
-    private func saveToUserDefaults() {
+    func saveToUserDefaults() {
         if let encoded = try? JSONEncoder().encode(toDos) {
             UserDefaults.standard.set(encoded, forKey: "toDos")
         }
     }
     
-    private func loadFromUserDefaults() {
+    func loadFromUserDefaults() {
         if let data = UserDefaults.standard.data(forKey: "toDos"),
            let decoded = try? JSONDecoder().decode([ToDoItem].self, from: data) {
             toDos = decoded
@@ -36,7 +36,7 @@ class ToDoViewModel: ObservableObject {
         }
     }
     
-    private func setDefaultToDos() {
+    func setDefaultToDos() {
         let db = Firestore.firestore()
         toDos = [
             ToDoItem(
