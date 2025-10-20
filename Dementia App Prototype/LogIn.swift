@@ -6,11 +6,19 @@
 //
 
 import SwiftUI
+import FirebaseFirestore
+import AudioToolbox
 
 struct LogIn: View {
-    @State private var email: String = ""
+    var usernameParameter: String = "you@example.com"  // value passed in
+    @State private var username: String
     @State private var password: String = ""
     @State private var showPassword: Bool = false
+    
+    init(usernameParameter: String = "you@example.com") {
+            self.usernameParameter = usernameParameter
+            self._username = State(initialValue: usernameParameter)
+        }
     
     var body: some View {
         NavigationStack {
@@ -32,13 +40,13 @@ struct LogIn: View {
                     
                     // Email
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("Email")
+                        Text("Username")
                             .font(.caption)
                             .foregroundColor(.black.opacity(0.8))
                             .padding(.horizontal, 12)
                             .padding(.top, 6)
                         
-                        TextField("you@example.com", text: $email)
+                        TextField("", text: $username)
                             .padding(.horizontal, 14)
                             .padding(.vertical, 12)
                             .background(
@@ -107,6 +115,7 @@ struct LogIn: View {
                     .foregroundColor(.white)
                     .padding(.top, 6)
                     
+                    Spacer().frame(height: 20)
                     // Sign up link
                     HStack(spacing: 4) {
                         Text("Don't have an account?")
@@ -115,11 +124,11 @@ struct LogIn: View {
                             SignUp()
                         }
                         .underline()
-                        .foregroundColor(.black.opacity(0.9))
+                        .foregroundColor(.blue.opacity(0.9))
                     }
                     .padding(.bottom, 8)
                     
-                    Spacer()
+                    
                 }
                 .padding(.horizontal)
             }

@@ -7,7 +7,8 @@ struct DatabaseThings: View {
     @State private var result: String = "[result]"
     @State private var allUsersResult: String = "No users retrieved yet."
     @State private var soundID = 1543
-    
+    @State private var searchFirstName: String = "" // input from user
+
     var body: some View {
         Text("Testing External Database") .font(.title)
         Text("👩🏻‍🔬") .font(.largeTitle)
@@ -74,6 +75,52 @@ struct DatabaseThings: View {
             }
             .padding()
             .background(Color("CustomPinkColor"))
+            .foregroundColor(.black)
+            .cornerRadius(20)
+            
+            Button("Retrieve users by first name") {  //✅ WORKING CODE
+                result = "Attempting to find user..."
+                allUsersResult = "Fetching users..."
+                
+                Task {
+                    do {
+                        // Query Firestore for users where "first_name" matches searchFirstName
+                        let snapshot = try await db.collection("users")
+                            .whereField("given_name", isEqualTo: "Melissa")
+                            .getDocuments()
+                        print("---------------------")
+                        print(result)
+                        print(allUsersResult)
+                        
+                        var collectedUserData = ""
+                        if snapshot.documents.isEmpty {
+                            collectedUserData = "No users found with first name \"\(searchFirstName)\"."
+                        } else {
+                            for document in snapshot.documents {
+                                let data = document.data()
+                                let id = document.documentID
+                                collectedUserData += "ID: \(id)\n"
+                                collectedUserData += "Name: \(data["first_name"] as? String ?? "N/A") \(data["last_name"] as? String ?? "N/A")\n"
+                                collectedUserData += "Born: \(data["born"] as? Date ?? Date())\n"
+                                collectedUserData += "Account type: \(data["account_type"] as? String ?? "N/A")\n"
+                                collectedUserData += "---\n"
+                            }
+                            collectedUserData += "Retrieved on: \(Date())"
+                        }
+                        
+                        self.allUsersResult = collectedUserData
+                        self.result = "Successfully retrieved users."
+                        print(result)
+                        print(allUsersResult)
+                    } catch {
+                        self.allUsersResult = "Error retrieving documents: \(error.localizedDescription)"
+                        self.result = "Error retrieving documents: \(error.localizedDescription)"
+                    }
+                }
+                AudioServicesPlaySystemSound(1255) // feedback sound
+            }
+            .padding()
+            .background(Color("CustomOrangeColor"))
             .foregroundColor(.black)
             .cornerRadius(20)
             
