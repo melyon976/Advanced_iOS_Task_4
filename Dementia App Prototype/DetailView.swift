@@ -30,7 +30,6 @@ struct DetailView: View {
     
     var body: some View {
         ZStack {
-            
             VStack {
                 Image(viewModel.toDos[toDoIndex].imageName)
                     .resizable()
@@ -88,6 +87,17 @@ struct DetailView: View {
                         )
                 }
                 
+                Spacer()
+                
+                NavigationLink(destination: EditTaskView(toDoIndex: toDoIndex)) {
+                    Text("Edit task")
+                        .padding()
+                        .frame(width: 200)
+                        .foregroundColor(.orange)
+                        .cornerRadius(50)
+                        .font(.system(size: 20))
+                }
+                
                 Text("Having Trouble?") .foregroundColor(.white)
                     .padding(.vertical, 20)
                 Spacer()
@@ -107,14 +117,13 @@ struct DetailView: View {
                     
                     Spacer()
                     
-                    NavigationLink(destination: EditTaskView(toDoIndex: toDoIndex)) {
-                        Text("Edit task")
-                            .padding()
-                            .foregroundColor(.black)
-                            .underline()
-                            .background(.thinMaterial)  
-                            .cornerRadius(20)
-                    }
+                    Text("Share")
+                        .padding()
+                        .foregroundColor(.black)
+                        .underline()
+                        .background(.thinMaterial)
+                        .cornerRadius(20)
+                    
                 } .padding(.horizontal)
                     .frame(width: 400)
                 
