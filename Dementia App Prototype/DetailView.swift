@@ -28,6 +28,13 @@ struct DetailView: View {
         return f
     }
     
+    var shareMessage: String {
+        let taskName = viewModel.toDos[toDoIndex].itemName
+        let taskTime = viewModel.toDos[toDoIndex].when.formatted(date: .abbreviated, time: .shortened)
+        return "Hey, just wondering if you could help me with a task. I need help with Task: \(taskName) at \(taskTime). Would you be free to help?"
+    }
+
+    
     var body: some View {
         ZStack {
             VStack {
@@ -117,12 +124,14 @@ struct DetailView: View {
                     
                     Spacer()
                     
-                    Text("Share")
-                        .padding()
-                        .foregroundColor(.black)
-                        .underline()
-                        .background(.thinMaterial)
-                        .cornerRadius(20)
+                    ShareLink(item: shareMessage) {
+                        Label("Share", systemImage: "square.and.arrow.up")
+                            .padding()
+                            .foregroundColor(.black)
+                            .background(.thinMaterial)
+                            .cornerRadius(20)
+                    }
+
                     
                 } .padding(.horizontal)
                     .frame(width: 400)
