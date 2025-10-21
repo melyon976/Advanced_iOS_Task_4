@@ -37,6 +37,8 @@ struct DataAndStats: View {
     @State private var tasksCompleted = 0
     @State private var tasksNotCompleted = 0
     
+    @StateObject var viewModel = ToDoViewModel.shared
+    
     var body: some View {
         ZStack {
             Color(UIColor.systemGroupedBackground)
@@ -120,6 +122,13 @@ struct DataAndStats: View {
                     //        Text("Percent completed (out of present)")
                     //        Text("Deleted tasks")
                     Spacer()
+                    
+                    Button("Load tasks from database") {
+                        Task {
+                            await viewModel.loadTasksFromFirestore(userID: "kjEt5qJlQoBUyg6GDkvy")
+                        }
+                    }
+                    
                 } .task { // runs when the view appears (async-friendly)
                     await loadUserDetails()
                 }

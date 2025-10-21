@@ -118,7 +118,7 @@ struct LogIn: View {
                     Spacer().frame(height: 20)
                     // Sign up link
                     HStack(spacing: 4) {
-                        Text("Don't have an account?")
+                        Text("Don't have an account yet?")
                             .foregroundColor(.black.opacity(0.7))
                         NavigationLink("Sign up") {
                             SignUp()

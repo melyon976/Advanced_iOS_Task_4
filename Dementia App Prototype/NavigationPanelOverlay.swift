@@ -11,10 +11,12 @@ import FirebaseFirestore
 struct NavigationPanelOverlay: View {
     @Environment(\.dismiss) var dismiss
     @Binding var showMenu: Bool
+    @StateObject var viewModel = ToDoViewModel.shared
+    @State private var uploadSuccess: Bool? = nil
     
     var body: some View {
         
-        ZStack{
+        ZStack {
             HStack { //for the menu itself
                 VStack {
                     Spacer() .frame(height: 50) //moves it down from the top
@@ -37,47 +39,81 @@ struct NavigationPanelOverlay: View {
                     Spacer().frame(height:40)
                     
                     /* These buttons functionalities will be added later (Non-essential for mvp)
-                    Button {
-                        // destination: CallOptionsPage()
-                    } label: {
-                        HStack {
-                            Spacer().frame(width:20) //away from left wall
-                            Text("☎️  Call Options")
-                            Spacer()
-                        }
-                    }
-                        .foregroundColor(.black)
-                        .font(.title3)
-                        
-                    
-                    Spacer().frame(height:25)
-                    
-                    Button {
-                        // destination: SettingsPage()
-                    } label: {
-                        HStack {
-                            Spacer().frame(width:20) //away from left wall
-                            Text("⚙️  Open Settings")
-                            Spacer()
-                        }
-                    }
-                        .foregroundColor(.black)
-                        .font(.title3)
-                    
-                    Spacer().frame(height:25)
+                     Button {
+                     // destination: CallOptionsPage()
+                     } label: {
+                     HStack {
+                     Spacer().frame(width:20) //away from left wall
+                     Text("☎️  Call Options")
+                     Spacer()
+                     }
+                     }
+                     .foregroundColor(.black)
+                     .font(.title3)
+                     
+                     
+                     Spacer().frame(height:25)
+                     
+                     Button {
+                     // destination: SettingsPage()
+                     } label: {
+                     HStack {
+                     Spacer().frame(width:20) //away from left wall
+                     Text("⚙️  Open Settings")
+                     Spacer()
+                     }
+                     }
+                     .foregroundColor(.black)
+                     .font(.title3)
+                     
+                     Spacer().frame(height:25)
                      */
                     
-                    NavigationLink (
-                        destination: DataAndStats())  {
+                    NavigationLink (destination: DataAndStats())  {
                         HStack {
                             Spacer().frame(width:20) //away from left wall
                             Text("📊  Accounts and Data")
                             Spacer()
                         }
                     }
-                        .foregroundColor(.black)
-                        .font(.title3)
+                    .foregroundColor(.black)
+                    .font(.title3)
+                    
                     Spacer()
+                    
+                    HStack {
+                        if uploadSuccess == true {
+                            // Upload succeeded → show checkmark instead of button
+                            Text("Upload successful") .foregroundColor(.darkGreen)
+                            Image(systemName: "checkmark")
+                                .foregroundColor(.darkGreen)
+                                .font(.title)
+                                .bold()
+                        } else {
+                            // Button is visible if upload hasn't succeeded yet (nil or false)
+                            Button("Sync Data") {
+                                Task {
+                                    let success = await viewModel.uploadAllTasksToFirestore(userID: "kjEt5qJlQoBUyg6GDkvy")
+                                    uploadSuccess = success
+                                    print(success ? "Upload successful" : "Upload failed")
+                                }
+                            }
+                            .foregroundColor(.blue)
+                            .underline()
+                            
+                            // If previous upload failed, also show warning icon next to the button
+                            if uploadSuccess == false {
+                                Image(systemName: "exclamationmark.triangle.fill")
+                                    .foregroundColor(Color("CustomOrangeColor"))
+                                    .font(.title2)
+                                    .bold()
+                            }
+                        }
+                    }
+                    
+                    
+                    Spacer() .frame(height:20)
+                    //REMOVED HERE
                 }
                 .background(.ultraThinMaterial) //adds the nice frosted background.
                 
@@ -85,7 +121,8 @@ struct NavigationPanelOverlay: View {
                     .frame(maxHeight: .infinity)
                     .frame(width: 150)
             } .ignoresSafeArea(.all)
-            HStack{
+            
+            HStack {
                 Spacer()
                 Button {
                     showMenu.toggle()

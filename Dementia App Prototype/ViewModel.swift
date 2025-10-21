@@ -93,4 +93,133 @@ class ToDoViewModel: ObservableObject {
         let item = toDos.remove(at: index)
         toDos.append(item)
     }
+    
+    
+    
+    // MARK: - Upload tasks by userID
+    func uploadAllTasksToFirestore(userID id: String) async -> Bool {
+        let db = Firestore.firestore()
+        let collectionRef = db.collection("users").document(id).collection("toDos")
+        
+        do {
+            // Clear old tasks
+            let snapshot = try await collectionRef.getDocuments()
+            for document in snapshot.documents {
+                try await document.reference.delete()
+            }
+            print("🧹 Cleared old tasks for user \(id)")
+            
+            // Upload current tasks
+            for task in toDos {
+                try collectionRef.document(task.id.uuidString).setData(from: task)
+            }
+            
+            print("✅ Successfully synced all tasks to Firestore for user \(id)")
+            return true
+            
+        } catch {
+            print("❌ Failed to sync tasks for user \(id): \(error.localizedDescription)")
+            return false
+        }
+    }
+
+    // MARK: - Load tasks by userID
+    func loadTasksFromFirestore(userID id: String) async -> Bool {
+        let db = Firestore.firestore()
+        let collectionRef = db.collection("users").document(id).collection("toDos")
+        
+        do {
+            let snapshot = try await collectionRef.getDocuments()
+            let tasks = try snapshot.documents.compactMap { document in
+                try document.data(as: ToDoItem.self)
+            }
+            
+            DispatchQueue.main.async {
+                self.toDos = tasks
+                print("✅ Successfully loaded \(tasks.count) tasks from Firestore for user \(id)")
+            }
+            
+            return true
+            
+        } catch {
+            print("❌ Failed to load tasks for user \(id): \(error.localizedDescription)")
+            return false
+        }
+    }
+
+    // MARK: - Upload tasks by username
+    func uploadAllTasksToFirestore(username name: String) async -> Bool {
+        let db = Firestore.firestore()
+        
+        do {
+            // Find document ID for username
+            let querySnapshot = try await db.collection("users")
+                .whereField("username", isEqualTo: name)
+                .getDocuments()
+            
+            guard let userDoc = querySnapshot.documents.first else {
+                print("❌ No user found with username: \(name)")
+                return false
+            }
+            
+            let userID = userDoc.documentID
+            let collectionRef = db.collection("users").document(userID).collection("toDos")
+            
+            // Clear old tasks
+            let snapshot = try await collectionRef.getDocuments()
+            for document in snapshot.documents {
+                try await document.reference.delete()
+            }
+            print("🧹 Cleared old tasks for user \(name)")
+            
+            // Upload current tasks
+            for task in toDos {
+                try collectionRef.document(task.id.uuidString).setData(from: task)
+            }
+            
+            print("✅ Successfully synced all tasks to Firestore for user \(name)")
+            return true
+            
+        } catch {
+            print("❌ Failed to sync tasks for user \(name): \(error.localizedDescription)")
+            return false
+        }
+    }
+
+    // MARK: - Load tasks by username
+    func loadTasksFromFirestore(username name: String) async -> Bool {
+        let db = Firestore.firestore()
+        
+        do {
+            // Find document ID for username
+            let querySnapshot = try await db.collection("users")
+                .whereField("username", isEqualTo: name)
+                .getDocuments()
+            
+            guard let userDoc = querySnapshot.documents.first else {
+                print("❌ No user found with username: \(name)")
+                return false
+            }
+            
+            let userID = userDoc.documentID
+            let collectionRef = db.collection("users").document(userID).collection("toDos")
+            
+            let snapshot = try await collectionRef.getDocuments()
+            let tasks = try snapshot.documents.compactMap { document in
+                try document.data(as: ToDoItem.self)
+            }
+            
+            DispatchQueue.main.async {
+                self.toDos = tasks
+                print("✅ Successfully loaded \(tasks.count) tasks from Firestore for user \(name)")
+            }
+            
+            return true
+            
+        } catch {
+            print("❌ Failed to load tasks for user \(name): \(error.localizedDescription)")
+            return false
+        }
+    }
+    
 }

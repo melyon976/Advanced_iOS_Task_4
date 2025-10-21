@@ -97,7 +97,7 @@ struct LandingPage2: View {
             VStack{
                 Spacer()
                     .frame(height:350)
-                NavigationLink("Begin", destination: SignUp()) //would be LandingPage3()
+                NavigationLink("Begin", destination: LogIn()) //would be LandingPage3()
                     .frame(width: 100, height: 50)
                     .background(Color.white)
                     .foregroundColor(.black)

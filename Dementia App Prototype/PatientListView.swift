@@ -70,7 +70,15 @@ struct PatientListView: View {
                             }
                             .animation(.easeInOut, value: viewModel.toDos.map { $0.checked })
                             .onAppear {
-                                print("Rebuilding PatientListView using: " + viewModel.toDos.map { $0.itemName }.joined(separator: ", "))
+                                print("Rebuilding PatientListView using: " +
+                                      viewModel.toDos
+                                    .filter { $0.present }               // only keep the ones with present = true
+                                    .map { $0.itemName }                 // extract their names
+                                    .joined(separator: ", ")             // join them into one string
+                                )
+                                Task {
+                                    await viewModel.uploadAllTasksToFirestore(userID: "kjEt5qJlQoBUyg6GDkvy") //anytime you make a change, it will sync to the cloud
+                                }
                             }
                             
                             Button(action:{viewModel.resetToDos()}) {
@@ -83,6 +91,12 @@ struct PatientListView: View {
                             }) {
                                 Text("Notification Test")
                                     .foregroundColor(Color("DarkAccentColor").opacity(1))
+                            }
+                            
+                            Button("Load tasks from database") {
+                                Task {
+                                    await viewModel.loadTasksFromFirestore(userID: "kjEt5qJlQoBUyg6GDkvy")
+                                }
                             }
 
                         }
