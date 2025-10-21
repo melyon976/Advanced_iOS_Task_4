@@ -70,14 +70,17 @@ struct PatientListView: View {
                             }
                             .animation(.easeInOut, value: viewModel.toDos.map { $0.checked })
                             .onAppear {
+                                // Print the current toDos for debugging
                                 print("Rebuilding PatientListView using: " +
                                       viewModel.toDos
-                                    .filter { $0.present }               // only keep the ones with present = true
-                                    .map { $0.itemName }                 // extract their names
-                                    .joined(separator: ", ")             // join them into one string
+                                        .filter { $0.present }     // only keep tasks that are present
+                                        .map { $0.itemName }       // extract their names
+                                        .joined(separator: ", ")   // join into a single string
                                 )
+
+                                // Initialize tasks properly for the user
                                 Task {
-                                    await viewModel.uploadAllTasksToFirestore(userID: "kjEt5qJlQoBUyg6GDkvy") //anytime you make a change, it will sync to the cloud
+                                    await viewModel.initializeTasksForUser(username: usernameParameter)
                                 }
                             }
                             
@@ -95,7 +98,7 @@ struct PatientListView: View {
                             
                             Button("Load tasks from database") {
                                 Task {
-                                    await viewModel.loadTasksFromFirestore(userID: "kjEt5qJlQoBUyg6GDkvy")
+                                    await viewModel.loadTasksFromFirestore(username: usernameParameter)
                                 }
                             }
 
@@ -111,7 +114,7 @@ struct PatientListView: View {
                 } .edgesIgnoringSafeArea(.top)
                 
                 if showMenu {
-                    NavigationPanelOverlay(showMenu: $showMenu)
+                    NavigationPanelOverlay(showMenu: $showMenu, usernameParameter: usernameParameter)
                         .transition(.move(edge: .leading)) // slide from left
                 } else {
                     //hide menu again

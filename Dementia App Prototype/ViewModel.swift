@@ -221,5 +221,45 @@ class ToDoViewModel: ObservableObject {
             return false
         }
     }
-    
+}
+
+extension ToDoViewModel {
+    func initializeTasksForUser(username: String) async {
+        let db = Firestore.firestore()
+        
+        do {
+            // Query for user document
+            let querySnapshot = try await db.collection("users")
+                .whereField("username", isEqualTo: username)
+                .getDocuments()
+            
+            guard let userDoc = querySnapshot.documents.first else {
+                print("❌ No user found with username: \(username)")
+                return
+            }
+            
+            let userID = userDoc.documentID
+            let tasksCollection = db.collection("users").document(userID).collection("toDos")
+            
+            let snapshot = try await tasksCollection.getDocuments()
+            
+            if snapshot.documents.isEmpty {
+                // New user
+                await MainActor.run {
+                    self.setDefaultToDos()
+                }
+                await self.uploadAllTasksToFirestore(username: username)
+            } else {
+                await self.loadTasksFromFirestore(username: username)
+            }
+            
+        } catch {
+            print("❌ Error initializing tasks for user \(username): \(error.localizedDescription)")
+            // fallback: load default tasks locally and sync
+            DispatchQueue.main.async {
+                self.setDefaultToDos()
+            }
+            await self.uploadAllTasksToFirestore(username: username)
+        }
+    }
 }

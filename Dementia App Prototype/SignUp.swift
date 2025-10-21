@@ -418,8 +418,12 @@ struct SignUp: View {
                 .padding(.bottom, 8)
                 
             } .padding(.horizontal, 30)
-        } .navigationDestination(isPresented: $navigate) {
-            PatientListView()  // The page it moves to
+        } .navigationDestination(isPresented: $navigate) { // The page it moves to
+            if username != "" {
+                PatientListView(usernameParameter: username)
+            } else {
+                PatientListView()
+            }
         }
     }
 }

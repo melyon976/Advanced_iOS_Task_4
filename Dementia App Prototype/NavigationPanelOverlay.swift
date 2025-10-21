@@ -13,6 +13,7 @@ struct NavigationPanelOverlay: View {
     @Binding var showMenu: Bool
     @StateObject var viewModel = ToDoViewModel.shared
     @State private var uploadSuccess: Bool? = nil
+    var usernameParameter: String = "Melyon"
     
     var body: some View {
         
@@ -93,7 +94,7 @@ struct NavigationPanelOverlay: View {
                             // Button is visible if upload hasn't succeeded yet (nil or false)
                             Button("Sync Data") {
                                 Task {
-                                    let success = await viewModel.uploadAllTasksToFirestore(userID: "kjEt5qJlQoBUyg6GDkvy")
+                                    let success = await viewModel.uploadAllTasksToFirestore(username: usernameParameter)
                                     uploadSuccess = success
                                     print(success ? "Upload successful" : "Upload failed")
                                 }
