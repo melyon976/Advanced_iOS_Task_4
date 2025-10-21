@@ -11,6 +11,8 @@ struct PatientListView: View {
     @State var showMenu = false
     @State private var allCompletedPlayed = false
     
+    var usernameParameter: String = "Melyon"
+    
     var body: some View {
         NavigationStack {
             ZStack {

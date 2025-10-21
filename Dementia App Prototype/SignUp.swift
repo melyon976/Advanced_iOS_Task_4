@@ -48,8 +48,8 @@ struct SignUp: View {
     @FocusState private var fullNameIsFocused: Bool
     @FocusState private var usernameIsFocused: Bool
     @FocusState private var passwordIsFocused: Bool
-    @FocusState private var bornIsFocused: Bool
-    @FocusState private var selectedRoleIsFocused: Bool
+    
+    @State private var navigate = false
     
     
     var body: some View {
@@ -382,14 +382,21 @@ struct SignUp: View {
                                     "born": born,
                                     "account_type": selectedRole.rawValue
                                 ])
-                                
                                 print("Document added with ID: \(ref.documentID)")
+                                
+                                //MOVE TO THE NEXT PAGE:
+                                navigate = true
+                                
                             } catch {
                                 print("Error adding document: \(error)")
                             }
                         }
                         AudioServicesPlaySystemSound(1104)
                     }
+                    
+                    
+                    
+                    
                 }
                 .padding()
                 .frame(width:200)
@@ -411,6 +418,8 @@ struct SignUp: View {
                 .padding(.bottom, 8)
                 
             } .padding(.horizontal, 30)
+        } .navigationDestination(isPresented: $navigate) {
+            PatientListView()  // The page it moves to
         }
     }
 }
