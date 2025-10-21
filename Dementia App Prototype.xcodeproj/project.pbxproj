@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6548A3842EA747A40047A592 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6548A3832EA747A40047A592 /* WidgetKit.framework */; };
+		6548A3862EA747A40047A592 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6548A3852EA747A40047A592 /* SwiftUI.framework */; };
+		6548A3972EA747A60047A592 /* TaskWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 6548A3822EA747A40047A592 /* TaskWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		D1B515112E8E5CAA008CFC5C /* FirebaseAI in Frameworks */ = {isa = PBXBuildFile; productRef = D1B515102E8E5CAA008CFC5C /* FirebaseAI */; };
 		D1B515132E8E5CAA008CFC5C /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = D1B515122E8E5CAA008CFC5C /* FirebaseAnalytics */; };
 		D1B515152E8E5CAA008CFC5C /* FirebaseAnalyticsCore in Frameworks */ = {isa = PBXBuildFile; productRef = D1B515142E8E5CAA008CFC5C /* FirebaseAnalyticsCore */; };
@@ -15,11 +18,56 @@
 		D1B515222E8E841A008CFC5C /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = D1B515212E8E841A008CFC5C /* FirebaseFirestore */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		6548A3952EA747A60047A592 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D113E9502E540A90007AE1DC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6548A3812EA747A40047A592;
+			remoteInfo = TaskWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		6548A39C2EA747A60047A592 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				6548A3972EA747A60047A592 /* TaskWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		6548A3822EA747A40047A592 /* TaskWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TaskWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		6548A3832EA747A40047A592 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		6548A3852EA747A40047A592 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		D1B035752E929D69004FF1E4 /* Dementia App Prototype.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Dementia App Prototype.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		6548A3982EA747A60047A592 /* Exceptions for "TaskWidget" folder in "TaskWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 6548A3812EA747A40047A592 /* TaskWidgetExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		6548A3872EA747A40047A592 /* TaskWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				6548A3982EA747A60047A592 /* Exceptions for "TaskWidget" folder in "TaskWidgetExtension" target */,
+			);
+			path = TaskWidget;
+			sourceTree = "<group>";
+		};
 		D113E95A2E540A90007AE1DC /* Dementia App Prototype */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "Dementia App Prototype";
@@ -28,6 +76,15 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		6548A37F2EA747A40047A592 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6548A3862EA747A40047A592 /* SwiftUI.framework in Frameworks */,
+				6548A3842EA747A40047A592 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D113E9552E540A90007AE1DC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -48,14 +105,18 @@
 			isa = PBXGroup;
 			children = (
 				D113E95A2E540A90007AE1DC /* Dementia App Prototype */,
+				6548A3872EA747A40047A592 /* TaskWidget */,
 				D1B515202E8E841A008CFC5C /* Frameworks */,
 				D1B035752E929D69004FF1E4 /* Dementia App Prototype.app */,
+				6548A3822EA747A40047A592 /* TaskWidgetExtension.appex */,
 			);
 			sourceTree = "<group>";
 		};
 		D1B515202E8E841A008CFC5C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6548A3832EA747A40047A592 /* WidgetKit.framework */,
+				6548A3852EA747A40047A592 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -63,6 +124,28 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		6548A3812EA747A40047A592 /* TaskWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6548A3992EA747A60047A592 /* Build configuration list for PBXNativeTarget "TaskWidgetExtension" */;
+			buildPhases = (
+				6548A37E2EA747A40047A592 /* Sources */,
+				6548A37F2EA747A40047A592 /* Frameworks */,
+				6548A3802EA747A40047A592 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				6548A3872EA747A40047A592 /* TaskWidget */,
+			);
+			name = TaskWidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = TaskWidgetExtension;
+			productReference = 6548A3822EA747A40047A592 /* TaskWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		D113E9572E540A90007AE1DC /* Dementia App Prototype */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D113E9662E540A91007AE1DC /* Build configuration list for PBXNativeTarget "Dementia App Prototype" */;
@@ -70,10 +153,12 @@
 				D113E9542E540A90007AE1DC /* Sources */,
 				D113E9552E540A90007AE1DC /* Frameworks */,
 				D113E9562E540A90007AE1DC /* Resources */,
+				6548A39C2EA747A60047A592 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				6548A3962EA747A60047A592 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				D113E95A2E540A90007AE1DC /* Dementia App Prototype */,
@@ -98,9 +183,12 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1620;
+				LastSwiftUpdateCheck = 1640;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
+					6548A3812EA747A40047A592 = {
+						CreatedOnToolsVersion = 16.4;
+					};
 					D113E9572E540A90007AE1DC = {
 						CreatedOnToolsVersion = 16.2;
 					};
@@ -124,11 +212,19 @@
 			projectRoot = "";
 			targets = (
 				D113E9572E540A90007AE1DC /* Dementia App Prototype */,
+				6548A3812EA747A40047A592 /* TaskWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		6548A3802EA747A40047A592 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D113E9562E540A90007AE1DC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -139,6 +235,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		6548A37E2EA747A40047A592 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D113E9542E540A90007AE1DC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -148,7 +251,69 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		6548A3962EA747A60047A592 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6548A3812EA747A40047A592 /* TaskWidgetExtension */;
+			targetProxy = 6548A3952EA747A60047A592 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		6548A39A2EA747A60047A592 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TaskWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = TaskWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "au.edu.uts.Dementia-App-Prototype.TaskWidget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		6548A39B2EA747A60047A592 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TaskWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = TaskWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "au.edu.uts.Dementia-App-Prototype.TaskWidget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		D113E9642E540A91007AE1DC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -327,6 +492,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		6548A3992EA747A60047A592 /* Build configuration list for PBXNativeTarget "TaskWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6548A39A2EA747A60047A592 /* Debug */,
+				6548A39B2EA747A60047A592 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		D113E9532E540A90007AE1DC /* Build configuration list for PBXProject "Dementia App Prototype" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

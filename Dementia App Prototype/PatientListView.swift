@@ -110,12 +110,6 @@ struct PatientListView: View {
     }
 }
 
-
-
-
-
-
-
 // MARK: - Preview
 #Preview {
     PatientListView()
