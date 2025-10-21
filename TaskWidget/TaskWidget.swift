@@ -78,6 +78,7 @@ struct TaskWidgetEntryView : View {
         VStack(alignment: .leading) {
             Text("Next Task:")
                 .font(.headline)
+                .foregroundColor(.darkAccent)
             Text(entry.taskName)
                 .font(.body)
                 .bold()
@@ -85,7 +86,9 @@ struct TaskWidgetEntryView : View {
                 .font(.subheadline)
                 .foregroundColor(.gray)
         }
-        .padding()
+        .containerBackground(for: .widget) {
+            Color.widgetBackground
+        }
     }
 }
 
