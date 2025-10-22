@@ -384,6 +384,9 @@ struct SignUp: View {
                                 ])
                                 print("Document added with ID: \(ref.documentID)")
                                 
+                                UserDefaults.standard.set(true, forKey: "isLoggedIn")
+                                UserDefaults.standard.set("Melyon", forKey: "loggedInUsername")
+                                
                                 //MOVE TO THE NEXT PAGE:
                                 navigate = true
                                 

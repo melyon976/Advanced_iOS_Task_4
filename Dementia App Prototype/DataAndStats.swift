@@ -26,18 +26,24 @@ struct Settings: View {
 
 struct DataAndStats: View {
     let db = Firestore.firestore()
-    @State private var result: String = "[result]" //placeholder while loading
-    @State private var allUsersResult: String = "No users retrieved yet."
-    @State private var soundID = 1543
     
     @State private var firstName = ""
     @State private var lastName = ""
-    @State private var born = 0
-    @State private var errorMessage = ""
     @State private var tasksCompleted = 0
     @State private var tasksNotCompleted = 0
+    @State private var taskSuccessRate: Double? = nil
+    @State private var born = 0
+    @State private var errorMessage = ""
+    @State private var allUsersResult = ""
+    @State private var result = ""
+    
+    @State private var birthdateText: String = "N/A"
+    @State private var ageText: String = "N/A"
+    
+    @State private var username = UserDefaults.standard.string(forKey: "loggedInUsername") ?? ""
     
     @StateObject var viewModel = ToDoViewModel.shared
+    @State private var navigateToLanding = false
     
     var body: some View {
         ZStack {
@@ -58,18 +64,32 @@ struct DataAndStats: View {
                         .shadow(radius: 5)
                     
                     if !firstName.isEmpty {
-                        Text("\(firstName) \(lastName)") .font(.title) .padding()
-                        Text("Age: \(2025 - born) years old")
-                        Text("Carers: Gabby Stafford \n")
-                        
-                        Text("Task success rate: \(String(format: "%.f%%", (Double(tasksCompleted) / Double(tasksNotCompleted + tasksCompleted)) * 100))")
-                        Text("Tasks complete: \(tasksCompleted) | Tasks incomplete: \(tasksNotCompleted)")
+                        VStack(spacing: 4) {
+                            Text("\(firstName) \(lastName)").font(.title)
+                            Text("\nUsername: \(username)")
+                            Text("Age: \(ageText) yrs old")
+                            Text("Born: \(birthdateText)")
+                            if let rate = taskSuccessRate {
+                                        Text("\nTask success rate: \(String(format: "%.f%%", rate))")
+                                
+                                    } else {
+                                        Text("\nTask success rate: N/A")
+                                    }
+                            
+                        }.padding()
                     } else if !errorMessage.isEmpty {
-                        Text(errorMessage)
-                            .foregroundColor(.red)
+                        Text(errorMessage).foregroundColor(.red)
                     } else {
                         ProgressView("Loading user...")
                     }
+                    
+                    Button("\nLog out") {
+                        UserDefaults.standard.set(false, forKey: "isLoggedIn")
+                        UserDefaults.standard.removeObject(forKey: "loggedInUsername")
+                        navigateToLanding = true
+                    }
+                    .foregroundColor(.red)
+                    .underline()
                     
                     Button("Fetch existing users (All)") {
                         result = "Attempting to find user..."
@@ -85,8 +105,13 @@ struct DataAndStats: View {
                                     for document in snapshot.documents { //loop to present all the entries
                                         let data = document.data()
                                         let id = document.documentID
-                                        collectedUserData += "Name: \(data["given_name"] as? String ?? "N/A") \(data["family_name"] as? String ?? "N/A")\n"
-                                        collectedUserData += "Born: \(data["born"] as? Int ?? 0)\n"
+                                        collectedUserData += "Name: \(data["first_name"] as? String ?? "N/A") \(data["last_name"] as? String ?? "N/A")\n"
+                                        
+                                        if let username = data["username"] as? String {
+                                            let birthdate = await getBirthdateString(for: username) ?? "N/A"
+                                            collectedUserData += "Born: \(birthdate)\n"
+                                        }
+                                        
                                         collectedUserData += "Account Type: \(data["account_type"] as? String ?? "[Unknown]")\n"
                                         collectedUserData += "ID: \(id)\n"
                                         collectedUserData += "-----\n"
@@ -129,32 +154,172 @@ struct DataAndStats: View {
                         }
                     }
                     
+                    Button("print currrent username") {
+                        let currentUsername = UserDefaults.standard.string(forKey: "loggedInUsername") ?? ""
+                        print("\(currentUsername) has \(taskSuccessRate ?? 0)"  )
+                    }
+                    
+                    
+                    
+                    
+                    
                 } .task { // runs when the view appears (async-friendly)
                     await loadUserDetails()
                 }
+            }
+        } .navigationDestination(isPresented: $navigateToLanding) { // The page it moves to
+            LandingPage1()
+        }
+        .task {
+            await loadUserDetails()
+            await fetchBirthdateAndAge()
+            
+            // Await first, then unwrap
+            let rate = await getTaskSuccessRate(for: username)
+            if let taskSuccessRate = rate {
+                print("Task success rate: \(taskSuccessRate)%")
+                // You can assign to a @State variable if needed
+                self.taskSuccessRate = taskSuccessRate
+            } else {
+                print("No task data available")
             }
         }
     }
     
     func loadUserDetails() async {
-        do {
-            let document = try await db.collection("users").document("kjEt5qJlQoBUyg6GDkvy").getDocument()
+            guard !username.isEmpty else {
+                errorMessage = "No username found."
+                return
+            }
             
-            if let data = document.data() {
-                firstName = data["given_name"] as? String ?? "N/A"
-                lastName = data["family_name"] as? String ?? "N/A"
-                born = data["born"] as? Int ?? 0
+            do {
+                let snapshot = try await db.collection("users")
+                    .whereField("username", isEqualTo: username)
+                    .getDocuments()
+                
+                guard let document = snapshot.documents.first else {
+                    errorMessage = "No user found with username \(username)."
+                    return
+                }
+                
+                let data = document.data()
+                firstName = data["first_name"] as? String ?? "N/A"
+                lastName = data["last_name"] as? String ?? "N/A"
                 tasksCompleted = data["tasks_completed"] as? Int ?? 0
                 tasksNotCompleted = data["tasks_not_completed"] as? Int ?? 0
-                print("Loaded user: \(firstName) \(lastName)")
-            } else {
-                errorMessage = "No data found for this user."
+            } catch {
+                errorMessage = "Error loading user: \(error.localizedDescription)"
+                print(errorMessage)
             }
+        }
+        
+        // MARK: - Fetch Birthdate and Age
+        func fetchBirthdateAndAge() async {
+            guard !username.isEmpty else {
+                birthdateText = "N/A"
+                ageText = "N/A"
+                return
+            }
+            
+            do {
+                let snapshot = try await db.collection("users")
+                    .whereField("username", isEqualTo: username)
+                    .getDocuments()
+                
+                guard let document = snapshot.documents.first,
+                      let timestamp = document.data()["born"] as? Timestamp else {
+                    birthdateText = "N/A"
+                    ageText = "N/A"
+                    return
+                }
+                
+                // Format birthdate
+                let date = timestamp.dateValue()
+                let formatter = DateFormatter()
+                formatter.dateFormat = "dd/MM/yyyy"
+                birthdateText = formatter.string(from: date)
+                
+                // Calculate age
+                let calendar = Calendar.current
+                let ageComponents = calendar.dateComponents([.year], from: date, to: Date())
+                ageText = "\(ageComponents.year ?? 0)"
+                
+            } catch {
+                birthdateText = "N/A"
+                ageText = "N/A"
+                print("Error fetching birthdate/age: \(error.localizedDescription)")
+            }
+        }
+    
+    // MARK: - Get Birthdate string for a given username
+    func getBirthdateString(for username: String) async -> String? {
+        guard !username.isEmpty else { return nil }
+        
+        do {
+            let snapshot = try await db.collection("users")
+                .whereField("username", isEqualTo: username)
+                .getDocuments()
+            
+            guard let document = snapshot.documents.first,
+                  let timestamp = document.data()["born"] as? Timestamp else {
+                return nil
+            }
+            
+            let date = timestamp.dateValue()
+            let formatter = DateFormatter()
+            formatter.dateFormat = "dd/MM/yyyy" // Customize format here
+            return formatter.string(from: date)
+            
         } catch {
-            errorMessage = "Error loading user: \(error.localizedDescription)"
-            print(errorMessage)
+            print("Error fetching birthdate for \(username): \(error.localizedDescription)")
+            return nil
         }
     }
+    
+    // MARK: - Get task success rate for a username
+    func getTaskSuccessRate(for username: String) async -> Double? {
+        guard !username.isEmpty else { return nil }
+        
+        let db = Firestore.firestore()
+        
+        do {
+            // 1. Get the user document by username
+            let userSnapshot = try await db.collection("users")
+                .whereField("username", isEqualTo: username)
+                .getDocuments()
+            
+            guard let userDoc = userSnapshot.documents.first else {
+                print("No user found for username: \(username)")
+                return nil
+            }
+            
+            let userID = userDoc.documentID
+            
+            // 2. Get the user's todos collection
+            let todosSnapshot = try await db.collection("users")
+                .document(userID)
+                .collection("toDos")
+                .getDocuments()
+            
+            // 3. Filter only present todos and count checked/unchecked
+            let todos = todosSnapshot.documents.compactMap { try? $0.data(as: ToDoItem.self) }
+            let presentTodos = todos.filter { $0.present }
+            
+            let checkedCount = presentTodos.filter { $0.checked }.count
+            let uncheckedCount = presentTodos.filter { !$0.checked }.count
+            let total = checkedCount + uncheckedCount
+            
+            guard total > 0 else { return nil } // avoid division by zero
+            
+            let successRate = (Double(checkedCount) / Double(total)) * 100
+            return successRate
+            
+        } catch {
+            print("Error fetching tasks for \(username): \(error.localizedDescription)")
+            return nil
+        }
+    }
+    
 }
 
 struct AccountDetails: View {

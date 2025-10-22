@@ -12,9 +12,19 @@ import UserNotifications
 @main
 struct Dementia_App_PrototypeApp: App {
       @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate // this will register app delegate for Firebase Firestore setup
+    
+    // Load saved login state
+        @State private var isLoggedIn = UserDefaults.standard.bool(forKey: "isLoggedIn")
+        @State private var username = UserDefaults.standard.string(forKey: "loggedInUsername") ?? ""
     var body: some Scene {
         WindowGroup {
-            LandingPage1()
+            if isLoggedIn && !username.isEmpty {
+                // ✅ User already logged in — skip to main app
+                PatientListView(usernameParameter: username)
+            } else {
+                // 🚪 Not logged in yet — show landing/login screen
+                LandingPage1()
+            }
         }
     }
 }

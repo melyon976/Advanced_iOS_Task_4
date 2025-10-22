@@ -48,7 +48,7 @@ struct LandingPage1: View {
                         .cornerRadius(18)
                         .shadow(radius: 5)
                 }
-            }
+            } .navigationBarBackButtonHidden(true)
         }
     }
 }

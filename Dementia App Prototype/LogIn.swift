@@ -13,7 +13,7 @@ struct LogIn: View {
     var usernameParameter: String = "you@example.com"  // value passed in
     @State private var user: String = "" //placeholder
     @State private var username: String
-    @State private var password: String = ""
+    @State private var password: String = "Password"
     @State private var showPassword: Bool = false
     
     @FocusState private var usernameIsFocused: Bool
@@ -32,10 +32,11 @@ struct LogIn: View {
     
     @State private var navigate = false
     
-    init(usernameParameter: String = "you@example.com") {
-        self.usernameParameter = usernameParameter
-        self._username = State(initialValue: usernameParameter)
-    }
+    init(usernameParameter: String = "Gracie") {
+            self.usernameParameter = usernameParameter
+            // Use projected value to set @State
+            self._username = State(initialValue: usernameParameter.isEmpty ? "" : usernameParameter)
+        }
     
     var body: some View {
         NavigationStack {
@@ -46,7 +47,7 @@ struct LogIn: View {
                 VStack(spacing: 18) {
                     // Header
                     VStack(spacing: 6) {
-                        Text("Welcome back")
+                        Text("Welcome")
                             .font(.title.bold())
                             .foregroundColor(.black.opacity(0.9))
                         Text("Log in to continue")
@@ -63,7 +64,7 @@ struct LogIn: View {
                             .padding(.horizontal, 12)
                             .padding(.top, 6)
                         HStack {
-                            TextField("", text: $username)
+                            TextField("Gracie", text: $username)
                                 .padding(.horizontal, 14)
                                 .padding(.vertical, 12)
                                 .background(
@@ -154,7 +155,7 @@ struct LogIn: View {
                             if showPassword {
                                 TextField("", text: $password)
                             } else {
-                                SecureField("••••••••", text: $password)
+                                SecureField("", text: $password)
                             }
                                 
                             Spacer()
@@ -186,19 +187,27 @@ struct LogIn: View {
                     .padding(.top, 2)
                     
                     Button("Continue"){
-                        if username != "" && usernameMatching == true { //&& passwordMatching true
-                            Task {
+                        print("Testing with \(username) + \(password)")
+                        Task {
                                 if await checkPassword(username: username, inputPassword: password) {
                                     print("Login successful ✅")
                                     pointPassword = 2
+                                    UserDefaults.standard.set(true, forKey: "isLoggedIn")
+                                    UserDefaults.standard.set(username, forKey: "loggedInUsername")
+                                    
+                                    
                                     navigate = true
                                     // Navigate to PatientListView or do something else
                                 } else {
                                     print("Login failed ❌")
                                     // Show an error message
+                                    pointPassword = 1
                                 }
-                            }
+                        
                         }
+                        
+                        
+                         
                     } .bold()
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 14)
@@ -211,7 +220,7 @@ struct LogIn: View {
                     
                     
                     
-                    Spacer().frame(height: 20)
+                    Spacer().frame(height: 10)
                     // Sign up link
                     HStack(spacing: 4) {
                         Text("Don't have an account yet?")
@@ -224,6 +233,7 @@ struct LogIn: View {
                     }
                     .padding(.bottom, 8)
                     
+                    Spacer()
                     
                 }
                 .padding(.horizontal)
@@ -240,30 +250,32 @@ struct LogIn: View {
 
 func checkPassword(username: String, inputPassword: String) async -> Bool {
     let db = Firestore.firestore()
+    print("checking password")
+        do {
+            // Query for the user document
+            let querySnapshot = try await db.collection("users")
+                .whereField("username", isEqualTo: username)
+                .getDocuments()
+            
+            // Check if user exists
+            guard let userDoc = querySnapshot.documents.first else {
+                print("❌ No user found with username: \(username)")
+                return false
+                
+            }
+            
+            // Get the stored password
+            if let storedPassword = userDoc.data()["password"] as? String {
+                return storedPassword == inputPassword
+            } else {
+                print("❌ No password field found for this user")
+                return false
+            }
+        } catch {
+            print("❌ Error checking password: \(error.localizedDescription)")
+            return false
+        }
     
-    do {
-        // Query for the user document
-        let querySnapshot = try await db.collection("users")
-            .whereField("username", isEqualTo: username)
-            .getDocuments()
-        
-        // Check if user exists
-        guard let userDoc = querySnapshot.documents.first else {
-            print("❌ No user found with username: \(username)")
-            return false
-        }
-        
-        // Get the stored password
-        if let storedPassword = userDoc.data()["password"] as? String {
-            return storedPassword == inputPassword
-        } else {
-            print("❌ No password field found for this user")
-            return false
-        }
-    } catch {
-        print("❌ Error checking password: \(error.localizedDescription)")
-        return false
-    }
 }
 
 #Preview {
