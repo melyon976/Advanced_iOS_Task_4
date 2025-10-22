@@ -9,9 +9,8 @@ Our app performs well across its core features:
 Reminders and Notifications reliably alert users for medications, appointments, and meals, reducing dependency on external reminders.
 Memory Journal functions as a digital diary, allowing photo, text, and audio entries, fostering a sense of personal continuity and reflection.
 Carer and Doctor Portals enable synchronization of information through Firestore, ensuring up-to-date data for all involved.
-Location Tracking works effectively using Core Location services, providing real-time safety alerts in case of wandering incidents.
 
-The app’s integration of cognitive health features — such as memory games and emotional journaling — sets it apart from conventional reminder apps. It merges emotional support with practical management, addressing both psychological and safety needs.  By enabling carers and medical professionals to collaborate through a shared data model, the app promotes a connected care ecosystem, reflecting modern healthcare practices that emphasize remote monitoring and patient empowerment.
+By enabling carers and medical professionals to collaborate through a shared data model, the app promotes a connected care ecosystem, reflecting modern healthcare practices that emphasize remote monitoring and patient empowerment.
 
 Git Repository:
 https://github.com/melyon976/Advanced_iOS_Task_4
