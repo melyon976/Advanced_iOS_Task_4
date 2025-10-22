@@ -2,7 +2,7 @@
 //  NotificationManager.swift
 //  Dementia App Prototype
 //
-//  Created by Grace on 16/10/2025.
+//  Created by Melissa Lyon, Chi Sum Lau, Jeffery Wang on 16/10/2025.
 //
 
 import Foundation

@@ -2,7 +2,7 @@
 //  Dementia_App_PrototypeApp.swift
 //  Dementia App Prototype
 //
-//  Created by Melissa Lyon on 19/8/2025.
+//  Created by Melissa Lyon, Chi Sum Lau, Jeffery Wang on 19/8/2025.
 //
 
 import SwiftUI

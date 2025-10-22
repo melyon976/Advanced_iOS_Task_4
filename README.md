@@ -1,5 +1,5 @@
 # Advanced_iOS_Task_4
-This is an assignment for the Advanced iOS Development subject with authors Melissa, Grace, and Jeffery
+This is an assignment for the Advanced iOS Development subject with authors Melissa Lyon, Chi Sum Lau, and Jeffery Wang
 
 Remora is an assistive mobile application designed to improve the quality of life for individuals living with dementia, while providing essential tools for carers and healthcare professionals. We emphasizes simplicity, accessibility, and safety, combining personalized care features with cloud features. We wan to help patients maintain independence, routine, and emotional stability while keeping carers informed and engaged.
 

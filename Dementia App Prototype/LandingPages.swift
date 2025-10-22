@@ -2,7 +2,7 @@
 //  LandingPages.swift
 //  Dementia App Prototype
 //
-//  Created by Melissa Lyon on 27/8/2025.
+//  Created by Melissa Lyon, Chi Sum Lau, Jeffery Wang on 27/8/2025.
 //
 
 import SwiftUI

@@ -2,7 +2,7 @@
 //  TaskWidgetControl.swift
 //  TaskWidget
 //
-//  Created by Grace on 21/10/2025.
+//  Created by Melissa Lyon, Chi Sum Lau, Jeffery Wang on 21/10/2025.
 //
 
 import AppIntents
