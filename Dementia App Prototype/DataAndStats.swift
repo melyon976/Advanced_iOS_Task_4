@@ -136,6 +136,7 @@ struct DataAndStats: View {
                     .foregroundColor(.blue)
                     .cornerRadius(20)
                     .underline()
+                    .opacity(0)
                     
                     Text(allUsersResult)
                         .font(.body)
@@ -153,11 +154,13 @@ struct DataAndStats: View {
                             await viewModel.loadTasksFromFirestore(userID: "kjEt5qJlQoBUyg6GDkvy")
                         }
                     }
+                    .opacity(0)
                     
                     Button("print currrent username") {
                         let currentUsername = UserDefaults.standard.string(forKey: "loggedInUsername") ?? ""
                         print("\(currentUsername) has \(taskSuccessRate ?? 0)"  )
                     }
+                    .opacity(0)
                     
                     
                     

@@ -85,7 +85,7 @@ struct PatientListView: View {
                             }
                             
                             Button(action:{viewModel.resetToDos()}) {
-                                Text("Reset Todos") .foregroundColor(Color("DarkAccentColor").opacity(1))
+                                Text("Reset Todos") .foregroundColor(Color("DarkAccentColor").opacity(0))
                             }
                             
                             //MARK: Grace: noti testing
@@ -93,7 +93,7 @@ struct PatientListView: View {
                                 NotificationManager.shared.triggerInstantTestNotification()
                             }) {
                                 Text("Notification Test")
-                                    .foregroundColor(Color("DarkAccentColor").opacity(1))
+                                    .foregroundColor(Color("DarkAccentColor").opacity(0))
                             }
                             
                             Button("Load tasks from database") {
@@ -101,6 +101,7 @@ struct PatientListView: View {
                                     await viewModel.loadTasksFromFirestore(username: usernameParameter)
                                 }
                             }
+                            .opacity(0)
 
                         }
                         .padding()
